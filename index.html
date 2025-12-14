@@ -2,10 +2,8 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <title>PAT Jungle Adventure</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PASTEL</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2d5a27">
@@ -14,47 +12,42 @@
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/GEND1T/pat-app/master/avatars/icon-192.png">
     
     <style>
-        /* 2. CSS RESET AGAR FULLSCREEN */
-        body, html { 
-            margin: 0; 
-            padding: 0; 
-            height: 100%; 
-            width: 100%; 
-            overflow: hidden; /* Mencegah scrollbar ganda */
-            background-color: #2d5a27; 
-        }
-        
-        iframe { 
-            width: 100%; 
-            height: 100%; 
-            border: none; 
-            display: block; /* Menghilangkan gap putih di bawah */
-        }
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #2d5a27; }
+        iframe { width: 100%; height: 100%; border: none; display: block; }
     </style>
 </head>
 <body>
     <iframe id="app-frame" src=""></iframe>
 
     <script>
-        // --- KONFIGURASI URL ---
+        // 1. URL Web App Google Script Anda (Pastikan akhiran /exec)
         const gasUrl = "https://script.google.com/macros/s/AKfycbw3U16MfAGQ2_-kCB1B-l5xKgBfi3KtOvtc1MnBmTVrxZOlPKvpNL9t1Dm0rhHU4lN2/exec";
 
-        // --- LOGIKA URL ---
+        // 2. Ambil Parameter ID dari URL GitHub (misal: ?id=PAT001)
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const userId = urlParams.get('id');
 
+        // 3. Susun URL Target untuk Iframe
+        // Kita tambahkan ?id=... ke link Google Script
         let targetSrc = gasUrl;
+        
         if (userId) {
+            // Jika link GAS sudah ada tanda '?', gunakan '&'. Jika belum, gunakan '?'
             const separator = targetSrc.includes('?') ? '&' : '?';
             targetSrc += separator + "id=" + userId;
         }
 
+        console.log("Memuat GAS dengan URL:", targetSrc); // Debugging
+
+        // 4. Masukkan URL ke Iframe
         document.getElementById('app-frame').src = targetSrc;
 
-        // --- SERVICE WORKER ---
+        // 5. Register Service Worker (Hanya di GitHub, BUKAN di GAS)
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').catch(console.error);
+            navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('SW Registered!', reg))
+                .catch(err => console.log('SW Error:', err));
         }
     </script>
 </body>
