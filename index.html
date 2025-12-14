@@ -5,7 +5,7 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <title>PASTEL</title>
+    <title>PAT Jungle Adventure</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2d5a27">
@@ -34,7 +34,7 @@
             display: block;
         }
 
-        /* === CSS MAGIC TRICK (Solusi Masalah Anda) === */
+        /* === CSS MAGIC TRICK (Skala 20%) === */
         
         /* Tampilan Default (Desktop/Laptop): Normal */
         iframe {
@@ -43,15 +43,15 @@
         }
 
         /* KHUSUS HP (Layar di bawah 768px) */
-        /* Kita paksa iframe mengecil (Zoom Out) agar tulisan 25px terlihat wajar */
         @media (max-width: 768px) {
             iframe {
-                /* Logika: Lebarkan kanvasnya 155%... */
-                width: 153.84%;  /* 100 / 0.65 */
-                height: 153.84%; 
+                /* Logika: 100% dibagi 0.2 = 500% */
+                /* Kita lebarkan ruang geraknya jadi 5x lipat... */
+                width: 500%;  
+                height: 500%; 
                 
-                /* ...Lalu kecilkan tampilannya jadi 65% */
-                transform: scale(0.65);
+                /* ...Lalu kita kecilkan tampilannya jadi 20% */
+                transform: scale(0.2);
                 transform-origin: 0 0; /* Titik pengecilan dari pojok kiri atas */
             }
         }
@@ -64,7 +64,6 @@
 
     <script>
         // --- KONFIGURASI URL ---
-        // Pastikan URL GAS ini benar
         const gasUrl = "https://script.google.com/macros/s/AKfycbw3U16MfAGQ2_-kCB1B-l5xKgBfi3KtOvtc1MnBmTVrxZOlPKvpNL9t1Dm0rhHU4lN2/exec";
 
         // --- LOGIKA PASSING ID ---
@@ -74,13 +73,11 @@
 
         let targetSrc = gasUrl;
         
-        // Tempelkan ID jika ada
         if (userId) {
             const separator = targetSrc.includes('?') ? '&' : '?';
             targetSrc += separator + "id=" + userId;
         }
 
-        // Masukkan ke Iframe
         document.getElementById('app-frame').src = targetSrc;
 
         // --- SERVICE WORKER ---
