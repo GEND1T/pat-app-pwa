@@ -2,8 +2,10 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PASTEL</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>PAT Jungle Adventure</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2d5a27">
@@ -12,42 +14,78 @@
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/GEND1T/pat-app/master/avatars/icon-192.png">
     
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #2d5a27; }
-        iframe { width: 100%; height: 100%; border: none; display: block; }
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            height: 100%; 
+            width: 100%; 
+            overflow: hidden; 
+            background-color: #2d5a27; 
+        }
+        
+        #iframe-wrapper {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        iframe { 
+            border: none; 
+            display: block;
+        }
+
+        /* === CSS MAGIC TRICK (Solusi Masalah Anda) === */
+        
+        /* Tampilan Default (Desktop/Laptop): Normal */
+        iframe {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* KHUSUS HP (Layar di bawah 768px) */
+        /* Kita paksa iframe mengecil (Zoom Out) agar tulisan 25px terlihat wajar */
+        @media (max-width: 768px) {
+            iframe {
+                /* Logika: Lebarkan kanvasnya 155%... */
+                width: 153.84%;  /* 100 / 0.65 */
+                height: 153.84%; 
+                
+                /* ...Lalu kecilkan tampilannya jadi 65% */
+                transform: scale(0.65);
+                transform-origin: 0 0; /* Titik pengecilan dari pojok kiri atas */
+            }
+        }
     </style>
 </head>
 <body>
-    <iframe id="app-frame" src=""></iframe>
+    <div id="iframe-wrapper">
+        <iframe id="app-frame" src=""></iframe>
+    </div>
 
     <script>
-        // 1. URL Web App Google Script Anda (Pastikan akhiran /exec)
+        // --- KONFIGURASI URL ---
+        // Pastikan URL GAS ini benar
         const gasUrl = "https://script.google.com/macros/s/AKfycbw3U16MfAGQ2_-kCB1B-l5xKgBfi3KtOvtc1MnBmTVrxZOlPKvpNL9t1Dm0rhHU4lN2/exec";
 
-        // 2. Ambil Parameter ID dari URL GitHub (misal: ?id=PAT001)
+        // --- LOGIKA PASSING ID ---
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const userId = urlParams.get('id');
 
-        // 3. Susun URL Target untuk Iframe
-        // Kita tambahkan ?id=... ke link Google Script
         let targetSrc = gasUrl;
         
+        // Tempelkan ID jika ada
         if (userId) {
-            // Jika link GAS sudah ada tanda '?', gunakan '&'. Jika belum, gunakan '?'
             const separator = targetSrc.includes('?') ? '&' : '?';
             targetSrc += separator + "id=" + userId;
         }
 
-        console.log("Memuat GAS dengan URL:", targetSrc); // Debugging
-
-        // 4. Masukkan URL ke Iframe
+        // Masukkan ke Iframe
         document.getElementById('app-frame').src = targetSrc;
 
-        // 5. Register Service Worker (Hanya di GitHub, BUKAN di GAS)
+        // --- SERVICE WORKER ---
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('SW Registered!', reg))
-                .catch(err => console.log('SW Error:', err));
+            navigator.serviceWorker.register('sw.js').catch(console.error);
         }
     </script>
 </body>
