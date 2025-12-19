@@ -14,10 +14,10 @@
             "purpose": "any maskable"
         },
         {
-            "src": "https://raw.githubusercontent.com/GEND1T/pat-app/master/avatars/splash-screen.png",
+            "src": "https://raw.githubusercontent.com/GEND1T/pat-app/master/avatars/icon-512.png",
             "sizes": "512x512",
             "type": "image/png",
-            "purpose": "any"
+            "purpose": "any maskable"
         }
     ]
 }
