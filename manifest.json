@@ -8,7 +8,7 @@
     "orientation": "portrait",
     "icons": [
         {
-            "src": "https://raw.githubusercontent.com/GEND1T/pat-app/master/avatars/icon-192.png",
+            "src": "https://raw.githubusercontent.com/GEND1T/pat-app/master/avatars/icon-512.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "any maskable"
