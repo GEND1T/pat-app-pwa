@@ -90,5 +90,38 @@
             navigator.serviceWorker.register('sw.js').catch(console.error);
         }
     </script>
+
+    <div id="ios-warning" style="display:none; position:fixed; bottom:0; left:0; width:100%; background:#dc2626; color:white; padding:15px; text-align:center; z-index:99999; font-family:sans-serif;">
+    <p style="margin:0 0 10px 0;">⚠️ Menggunakan iPhone/Safari?</p>
+    <p style="font-size:0.8rem; margin:0 0 10px 0;">Jika aplikasi tidak berjalan lancar (Login gagal/Blank), buka versi Fullscreen:</p>
+    <a id="direct-link" href="#" target="_blank" style="background:white; color:#dc2626; padding:8px 15px; border-radius:20px; text-decoration:none; font-weight:bold; display:inline-block;">Buka Fullscreen 🚀</a>
+    <button onclick="document.getElementById('ios-warning').style.display='none'" style="background:none; border:1px solid white; color:white; padding:5px 10px; border-radius:10px; margin-left:10px;">Tutup</button>
+</div>
+
+<script>
+    // Deteksi jika user menggunakan iOS (iPhone/iPad)
+    function isIOS() {
+        return [
+            'iPad Simulator',
+            'iPhone Simulator',
+            'iPod Simulator',
+            'iPad',
+            'iPhone',
+            'iPod'
+        ].includes(navigator.platform)
+        // iPad on iOS 13 detection
+        || (navigator.userAgent.includes("Mac") && "ontouchend" in document);
+    }
+
+    // Jika iOS DAN berada di dalam Iframe
+    if (isIOS() && window.self !== window.top) {
+        var gasUrl = "https://script.google.com/macros/s/AKfycbw3U16MfAGQ2_-kCB1B-l5xKgBfi3KtOvtc1MnBmTVrxZOlPKvpNL9t1Dm0rhHU4lN2/exec"; // URL Script App Kamu
+        
+        // Pasang link ke tombol
+        document.getElementById('direct-link').href = gasUrl;
+        // Tampilkan peringatan
+        document.getElementById('ios-warning').style.display = 'block';
+    }
+</script>
 </body>
 </html>
